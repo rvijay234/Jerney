@@ -1,4 +1,4 @@
-aws_region      = "us-east-1"
+aws_region      = "ap-southeast-2"
 environment     = "dev"
 cluster_name    = "jerney-eks"
 cluster_version = "1.32"

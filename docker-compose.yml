@@ -18,10 +18,11 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    # Security: read-only root filesystem where possible
     tmpfs:
       - /tmp
       - /run
+    networks:
+      - jerney-network
 
   # ---- Backend API ----
   backend:
@@ -42,12 +43,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # Security: do not run as root (already in Dockerfile, but enforced here too)
     security_opt:
       - no-new-privileges:true
     read_only: true
     tmpfs:
       - /tmp
+    networks:
+      - jerney-network
 
   # ---- Frontend (Nginx + React) ----
   frontend:
@@ -62,6 +64,12 @@ services:
       - backend
     security_opt:
       - no-new-privileges:true
+    networks:
+      - jerney-network
+
+networks:
+  jerney-network:
+    driver: bridge
 
 volumes:
   pgdata:
